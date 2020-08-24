@@ -1,2 +1,4 @@
-# php-bootstrap-ui
-composer require uukule/php-bootstrap-ui
+# storage
+composer require uukule/storage
+
+for thinkphp 5.0.*
