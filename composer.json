@@ -1,0 +1,22 @@
+{
+    "name": "uukule/storage",
+    "authors": [
+        {
+            "name": "Mr.Zhang",
+            "email": "zhang@uukule.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "uukule\\": "packagetest/uukule/storage/src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    }
+}
+ 
