@@ -1,7 +1,7 @@
 <?php
 
 
-namespace uukule\storage;
+namespace uukule\storage\file;
 
 use Exception;
 use uukule\StorageInterface;
@@ -111,14 +111,16 @@ class File implements StorageInterface
      */
     function putFile(string $path, $file, $options = [])
     {
+        $path = $this->config['root'] . $path;
         if (is_string($file)) {
 
         } //判断是否THINKPHP框架
         elseif (class_exists('\\think\\File')) {
             if ($file instanceof \think\File) {
-                $save_path = $this->config['root'] . pathinfo($path)['dirname'];
+                $save_path = pathinfo($path)['dirname'];
                 $this->makeDirectory($save_path);
-                rename($file->getPathname(), $path);
+                copy($file->getPathname(), $path);
+                unlink($file->getPathname());
                 if (!$this->exists($path)) {
                     throw new Exception('文件上传失败');
                 }

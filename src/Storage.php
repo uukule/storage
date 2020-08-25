@@ -82,7 +82,7 @@ class Storage
 
         if (true === $name || !isset(self::$instance[$name])) {
             $class = false === strpos($type, '\\') ?
-                '\\uukule\\storage\\' . ucwords($type) :
+                '\\uukule\\storage\\'. lcfirst($type) .'\\' . ucwords($type) :
                 $type;
 
             // 记录初始化信息
