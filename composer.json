@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "uukule\\": "packagetest/uukule/storage/src/"
+            "uukule\\": "src/"
         },
         "files": [
             "src/helpers.php"
