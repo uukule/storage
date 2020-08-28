@@ -1,7 +1,7 @@
 <?php
 
 
-namespace uukule\storage;
+namespace uukule;
 
 
 class StorageException extends \Exception

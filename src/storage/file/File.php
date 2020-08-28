@@ -3,7 +3,7 @@
 
 namespace uukule\storage\file;
 
-use uukule\storage\StorageException as Exception;
+use uukule\StorageException as Exception;
 use uukule\StorageInterface;
 
 class File implements StorageInterface
