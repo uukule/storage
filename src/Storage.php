@@ -52,11 +52,11 @@ class Storage
     {
         if (is_null(self::$handler)) {
             if (empty($config) && 'complex' == Config::get('storage.type')) {
-                $default = Config::get('storage.default');
+                $default = Config::get('filesystem.default');
                 // 获取默认缓存配置，并连接
-                $config = Config::get('storage.' . $default['type']) ?: $default;
+                $config = Config::get('filesystem.' . $default['type']) ?: $default;
             } elseif (empty($config)) {
-                $config = Config::get('storage') ?? [];
+                $config = Config::get('filesystem') ?? [];
             }
 
             self::$handler = self::connect($config);

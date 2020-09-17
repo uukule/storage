@@ -6,7 +6,7 @@ namespace uukule\storage\file;
 use uukule\StorageException as Exception;
 use uukule\StorageInterface;
 
-class File implements StorageInterface
+class Local implements StorageInterface
 {
 
     protected $config = [
