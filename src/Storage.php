@@ -3,7 +3,7 @@
 
 namespace uukule;
 
-use think\{Config, App, Log};
+use think\{App, Log};
 /**
  * @method static bool exists(string $path)
  * @method static string get(string $path)
@@ -51,12 +51,12 @@ class Storage
     public static function init(array $config = []) : \uukule\StorageInterface
     {
         if (is_null(self::$handler)) {
-            if (empty($config) && 'complex' == Config::get('storage.type')) {
-                $default = Config::get('filesystem.default');
+            if (empty($config) && 'complex' == config('filesystem.type')) {
+                $default = config('filesystem.default');
                 // 获取默认缓存配置，并连接
-                $config = Config::get('filesystem.' . $default['type']) ?: $default;
+                $config = config('filesystem.' . $default['type']) ?: $default;
             } elseif (empty($config)) {
-                $config = Config::get('filesystem') ?? [];
+                $config = config('filesystem') ?? [];
             }
 
             self::$handler = self::connect($config);
@@ -74,7 +74,7 @@ class Storage
      */
     public static function connect(array $config = [], $name = false)
     {
-        $type = !empty($config['type']) ? $config['type'] : 'File';
+        $type = !empty($config['type']) ? $config['type'] : 'Local';
 
         if (false === $name) {
             $name = md5(serialize($config));
@@ -84,9 +84,6 @@ class Storage
             $class = false === strpos($type, '\\') ?
                 '\\uukule\\storage\\'. lcfirst($type) .'\\' . ucwords($type) :
                 $type;
-
-            // 记录初始化信息
-            App::$debug && Log::record('[ STORAGE ] INIT ' . $type, 'info');
 
             if (true === $name) {
                 return new $class($config);

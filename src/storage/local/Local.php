@@ -1,7 +1,7 @@
 <?php
 
 
-namespace uukule\storage\file;
+namespace uukule\storage\local;
 
 use uukule\StorageException as Exception;
 use uukule\StorageInterface;
