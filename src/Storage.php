@@ -3,7 +3,6 @@
 
 namespace uukule;
 
-use think\{App, Log};
 /**
  * @method static bool exists(string $path)
  * @method static string get(string $path)
@@ -45,31 +44,28 @@ class Storage
     /**
      * 自动初始化缓存
      * @access public
-     * @param  array $options 配置数组
+     * @param array|string $config 配置数组
      * @return Driver
      */
-    public static function init(array $config = []) : \uukule\StorageInterface
+    public static function init($config = null): \uukule\StorageInterface
     {
-        if (is_null(self::$handler)) {
-            if (empty($config) && 'complex' == config('filesystem.type')) {
-                $default = config('filesystem.default');
-                // 获取默认缓存配置，并连接
-                $config = config('filesystem.' . $default['type']) ?: $default;
-            } elseif (empty($config)) {
-                $config = config('filesystem') ?? [];
-            }
 
-            self::$handler = self::connect($config);
+        if (is_null($config)) {
+            return self::connect(config('filesystem.default'));
+        } elseif (is_string($config)) {
+            return self::disk($config);
+        } elseif (is_array($config)) {
+            return self::connect($config);
+        }else{
+            throw new \Exception('请指定文件驱动类型');
         }
-
-        return self::$handler;
     }
 
     /**
      * 连接文件驱动
      * @access public
-     * @param  array       $config 配置数组
-     * @param  bool|string $name    缓存连接标识 true 强制重新连接
+     * @param array $config 配置数组
+     * @param bool|string $name 缓存连接标识 true 强制重新连接
      * @return Driver
      */
     public static function connect(array $config = [], $name = false)
@@ -82,7 +78,7 @@ class Storage
 
         if (true === $name || !isset(self::$instance[$name])) {
             $class = false === strpos($type, '\\') ?
-                '\\uukule\\storage\\'. lcfirst($type) .'\\' . ucwords($type) :
+                '\\uukule\\storage\\' . lcfirst($type) . '\\' . ucwords($type) :
                 $type;
 
             if (true === $name) {
@@ -94,17 +90,20 @@ class Storage
 
         return self::$instance[$name];
     }
+
     /**
      * Get a filesystem instance.
      *
      * @param string|null $name
      * @return Storage
      */
-    public function disk($name = null)
+    public static function disk($name = null)
     {
-        $name = $name ?: $this->getDefaultDriver();
-
-        return $this->disks[$name] = $this->get($name);
+        if (is_null($name)) {
+            $name = config('filesystem.default')['type'] ?? 'local';
+        }
+        $sys_config = config('filesystem.' . $name);
+        return self::connect($sys_config);
     }
 
     private function getDefaultDriver(): string
