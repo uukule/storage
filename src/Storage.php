@@ -49,9 +49,9 @@ class Storage
      */
     public static function init($config = null): \uukule\StorageInterface
     {
-
         if (is_null($config)) {
-            return self::connect(config('filesystem.default'));
+            $config = config('filesystem.default');
+            return self::connect($config);
         } elseif (is_string($config)) {
             return self::disk($config);
         } elseif (is_array($config)) {
@@ -109,6 +109,12 @@ class Storage
     private function getDefaultDriver(): string
     {
         return 'local';
+    }
+
+    public function __call($method, $args)
+    {
+        $instance = $this->init();
+        return $instance->$method(...$args);
     }
 
     /**
