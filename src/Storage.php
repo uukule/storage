@@ -6,6 +6,7 @@ namespace uukule;
 /**
  * @method static bool exists(string $path)
  * @method static string get(string $path)
+ * @method static string url(string $path)
  * @method static resource|null readStream(string $path)
  * @method static bool put(string $path, string|resource $contents, mixed $options = [])
  * @method static string|false putFile(string $path, \think\File|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $file, mixed $options = [])
