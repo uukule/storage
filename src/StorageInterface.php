@@ -3,7 +3,13 @@
 
 namespace uukule;
 
-
+/**
+ * Interface StorageInterface
+ * @package uukule
+ *
+ * @todo temporaryUrl($path, $time) 临时 URLs
+ * @todo download() 下载文件
+ */
 interface StorageInterface
 {
 
