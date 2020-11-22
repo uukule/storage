@@ -20,8 +20,28 @@ ThinkPHP 6.0 Storage 核心组件含本地存储
 * [Composer包](#Composer包)
 * [安装](#安装)
 * [配置](#配置)
-
-
+* [用法](#用法)
+  * [快速开始](#快速开始)
+  * [使用Api](#使用Api)
+    * [检索文件](#检索文件)
+    * [下载文件(待更新)](#下载文件)
+    * [文件URLs](#文件URLs)
+    * [文件临时URLs](#文件临时URLs)
+    * [保存文件](#保存文件)
+    * [自动流式传输 (待更新)](#自动流式传输)
+    * [文件数据写入](#文件数据写入)
+    * [复制文件](#复制文件)
+    * [移动文件](#移动文件)
+    * [删除文件](#删除文件)
+    * [目录](#目录)
+      * [获取目录下的所有目录](#获取目录下的所有目录)
+      * [创建目录](#创建目录)
+      * [删除目录](#删除目录)
+      * [](#)
+      * [](#)
+    
+    
+    
 ## Composer包
 
 在使用OSS驱动之前，你需要通过Composer安装相应的软件包
@@ -32,7 +52,7 @@ ThinkPHP 6.0 Storage 核心组件含本地存储
 ## 安装
 
 > 该扩展需要 PHP 7.1+ 和 ThinkPHP 6.0+. <br>
-> 添加阿里云OSS存储请加载 [uukule/storage-oss ](https://packagist.org/packages/uukule/storage-oss)
+> 添加阿里云OSS存储请加载 [uukule/storage-oss](https://packagist.org/packages/uukule/storage-oss)
 
 使用`composer`安装：
 
@@ -84,7 +104,7 @@ return Storage::download('file.jpg');
 return Storage::download('file.jpg', $name, $headers);
 ```
 
-### 文件 URLs
+### 文件URLs
 你可以使用 `url` 方法来获取给定文件的 URL。如果你使用的时 `local` 驱动，一般只是在给定的路径上加上 `/storage` 并返回一个相对的 URL 到那个文件。如果使用的是 `s3` 或者是 `rackspace` 驱动，会返回完整的远程 URL：
 
 ```php
@@ -115,11 +135,14 @@ Storage::prepend('file.log', 'Prepended Text');
 
 Storage::append('file.log', 'Appended Text');
 ```
-### 复制 & 移动文件
-`copy` 方法可以复制文件到新地址，而 `move` 方法可以重命名文件或移动文件到新地址：
+### 复制文件
+`copy` 方法可以复制文件到新地址：
 ```php
 Storage::copy('old/file.jpg', 'new/file.jpg');
-
+```
+### 移动文件
+`move` 方法可以重命名文件或移动文件到新地址：
+```php
 Storage::move('old/file.jpg', 'new/file.jpg');
 ```
 
@@ -149,9 +172,16 @@ $directories = Storage::directories($directory);
 $directories = Storage::allDirectories($directory);
 ```
 
-
-
-
+#### 创建目录
+`makeDirectory` 方法会递归创建目录：
+```php
+Storage::makeDirectory($directory);
+```
+#### 删除目录
+`deleteDirectory` 方法会删除指定目录及其下所有文件：
+```php
+Storage::deleteDirectory($directory);
+```
 
 
 
